@@ -7,7 +7,7 @@ import App from './components/App';
 
 const store = createStore(todoApp);
 
-store.subscribe(() => console.log(store.getState().toString()));
+store.subscribe(() => console.log('mm', store.getState()));
 
 render(
   <Provider store={store}>
