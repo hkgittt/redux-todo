@@ -1,5 +1,6 @@
 
 import { combineReducers } from 'redux';
+import { Map, List } from 'immutable';
 import {
   ADD_TODO,
   TOGGLE_TODO,
@@ -18,26 +19,19 @@ function visibilityFilter(state = SHOW_ALL, action) {
   }
 }
 
-function todos(state = [], action) {
+function todos(state = List.of(), action) {
+  console.log('todo string', state.toString());
   switch (action.type) {
     case ADD_TODO:
-      return [
-        ...state,
-        {
+      return state.push(
+        Map({
           id: action.id,
           text: action.text,
           completed: false,
-        },
-      ];
+        })
+      );
     case TOGGLE_TODO:
-      return state.map((todo, index) => {
-        if (index === action.index) {
-          return Object.assign({}, todo, {
-            completed: !todo.completed,
-          });
-        }
-        return todo;
-      });
+      return state.updateIn([action.index, 'completed'], (value) => !value);
     default:
       return state;
   }

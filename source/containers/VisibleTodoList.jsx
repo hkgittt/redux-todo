@@ -3,18 +3,15 @@ import { toggleTodo, VisibilityFilters } from '../actions';
 import TodoList from '../components/TodoList';
 
 const getVisibleTodos = (todos, filter) => {
-  console.log('GETTING VISIBLETODOS');
-  console.log(todos, filter);
   switch (filter) {
     case VisibilityFilters.SHOW_ALL:
       return todos;
     case VisibilityFilters.SHOW_COMPLETED:
       return todos.filter(t => {
-        console.log(t);
-        return t.completed;
+        return t.get('completed');
       });
     case VisibilityFilters.SHOW_ACTIVE:
-      return todos.filter(t => !t.completed);
+      return todos.filter(t => !t.get('completed'));
     default:
       return todos;
   }
