@@ -1,5 +1,5 @@
 
-import { combineReducers } from 'redux';
+import { combineReducers } from 'redux-immutable';
 import { Map, List } from 'immutable';
 import {
   ADD_TODO,
