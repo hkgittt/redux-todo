@@ -7,7 +7,6 @@ import {
 } from './actions';
 
 function todos(state = List.of(), action) {
-  console.log('todo string', state.toString());
   switch (action.type) {
     case ADD_TODO:
       return state.push(
@@ -28,6 +27,21 @@ function todos(state = List.of(), action) {
       return state;
   }
 }
+
+export const getVisibleTodos = (state, filter) => {
+  switch (filter) {
+    case 'all':
+      return state;
+    case 'completed':
+      return state.filter(t => (
+        t.get('completed')
+      ));
+    case 'active':
+      return state.filter(t => !t.get('completed'));
+    default:
+      return state;
+  }
+};
 
 const todoApp = combineReducers({
   todos,
