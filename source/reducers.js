@@ -4,20 +4,7 @@ import { Map, List } from 'immutable';
 import {
   ADD_TODO,
   TOGGLE_TODO,
-  SET_VISIBILITY_FILTER,
-  VisibilityFilters,
 } from './actions';
-
-const { SHOW_ALL } = VisibilityFilters;
-
-function visibilityFilter(state = SHOW_ALL, action) {
-  switch (action.type) {
-    case SET_VISIBILITY_FILTER:
-      return action.filter;
-    default:
-      return state;
-  }
-}
 
 function todos(state = List.of(), action) {
   console.log('todo string', state.toString());
@@ -43,7 +30,6 @@ function todos(state = List.of(), action) {
 }
 
 const todoApp = combineReducers({
-  visibilityFilter,
   todos,
 });
 
