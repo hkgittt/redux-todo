@@ -31,7 +31,12 @@ function todos(state = List.of(), action) {
         })
       );
     case TOGGLE_TODO:
-      return state.updateIn([action.index, 'completed'], (value) => !value);
+      return state.map((todo) => {
+        if (todo.get('id') === action.id) {
+          return todo.set('completed', !todo.get('completed'));
+        }
+        return todo;
+      });
     default:
       return state;
   }
