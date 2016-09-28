@@ -5,6 +5,7 @@ import {
   TOGGLE_TODO,
   SET_VISIBILITY_FILTER,
   VisibilityFilters,
+  INCREMENT_COUNTER,
 } from './actions';
 
 const { SHOW_ALL } = VisibilityFilters;
@@ -21,6 +22,7 @@ function visibilityFilter(state = SHOW_ALL, action) {
 function todos(state = [], action) {
   switch (action.type) {
     case ADD_TODO:
+      // this works with reselect because we are declaring a new array
       return [
         ...state,
         {
@@ -43,9 +45,19 @@ function todos(state = [], action) {
   }
 }
 
+function counter(state = 0, action) {
+  switch (action.type) {
+    case INCREMENT_COUNTER:
+      return state + 1;
+    default:
+      return state;
+  }
+}
+
 const todoApp = combineReducers({
   visibilityFilter,
   todos,
+  counter,
 });
 
 export default todoApp;
