@@ -29,6 +29,7 @@ function todos(state = List.of(), action) {
 }
 
 export const getVisibleTodos = (state, filter) => {
+  console.log('inside getVisibleTodos()');
   switch (filter) {
     case 'all':
       return state;

@@ -1,7 +1,6 @@
 import { v4 } from 'node-uuid';
 import * as api from './api';
 
-
 export const ADD_TODO = 'ADD_TODO';
 export const TOGGLE_TODO = 'TOGGLE_TODO';
 

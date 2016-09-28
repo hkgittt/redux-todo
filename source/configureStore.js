@@ -1,43 +1,51 @@
 import { createStore } from 'redux';
 import todoApp from './reducers';
 
-const addLoggingToDispatch = (store) => {
-  const rawDispatch = store.dispatch;
+const logger = (store) => {
+  const nextDispatch = store.dispatch;
   if (!console.group) {
-    return rawDispatch;
+    return nextDispatch;
   }
   return (action) => {
     console.group(action.type);
     console.log('%c prev state', 'color: gray', store.getState().toString());
     console.log('%c action', 'color: blue', action);
-    const returnValue = rawDispatch(action);
+    const returnValue = nextDispatch(action);
     console.log('%c next state', 'color: green', store.getState().toString());
     console.groupEnd(action.type);
     return returnValue;
   };
 };
 
-const addPromiseSupportToDispatch = (store) => {
-  const rawDispatch = store.dispatch;
+const promise = (store) => {
+  const nextDispatch = store.dispatch;
   return (action) => {
     if (typeof action.then === 'function') {
-      return action.then(rawDispatch);
+      return action.then(nextDispatch);
     }
-    return rawDispatch(action);
+    return nextDispatch(action);
   };
+};
+
+const wrapDispatchWithMiddlewares = (store, middlewares) => {
+  middlewares.forEach(middleware =>
+    (store.dispatch = middleware(store))
+  );
 };
 
 const configureStore = () => {
   const store = createStore(
     todoApp
   );
+  const middlewares = [];
 
   if (process.env.NODE_ENV !== 'production') {
-    store.dispatch = addLoggingToDispatch(store);
+    middlewares.push(logger);
   }
 
-  store.dispatch = addPromiseSupportToDispatch(store);
+  middlewares.push(promise);
 
+  wrapDispatchWithMiddlewares(store, middlewares);
   return store;
 };
 
